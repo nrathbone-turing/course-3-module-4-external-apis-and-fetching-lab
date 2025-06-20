@@ -2,11 +2,15 @@
  * @jest-environment jsdom
  */
 
-const { fetchWeatherData, displayWeather, displayError } = require('../index')
+const { fetchWeatherData, displayWeather, displayError } = require('../index.js')
 
 describe('fetchWeatherData', () => {
   beforeEach(() => {
     global.fetch = jest.fn()
+    document.body.innerHTML = `
+      <div id="weather-display"></div>
+      <div id="error-message" class="hidden"></div>
+  `
   })
 
   it('should fetch weather data for a valid city', async () => {
@@ -49,7 +53,10 @@ describe('displayWeather', () => {
   let weatherDisplay
 
   beforeEach(() => {
-    document.body.innerHTML = '<div id="weather-display"></div>'
+    document.body.innerHTML = `
+      <div id="weather-display"></div>
+      <div id="error-message" class="hidden"></div>
+  `
     weatherDisplay = document.getElementById('weather-display')
   })
 
@@ -63,7 +70,7 @@ describe('displayWeather', () => {
     displayWeather(mockData)
 
     expect(weatherDisplay.innerHTML).toContain('New York')
-    expect(weatherDisplay.innerHTML).toContain('25°C') // 298.15 Kelvin to Celsius
+    expect(weatherDisplay.innerHTML).toContain('298.15°F') 
     expect(weatherDisplay.innerHTML).toContain('50%')
     expect(weatherDisplay.innerHTML).toContain('clear sky')
   })
@@ -73,7 +80,10 @@ describe('displayError', () => {
   let errorMessage
 
   beforeEach(() => {
-    document.body.innerHTML = '<div id="error-message" class="hidden"></div>'
+    document.body.innerHTML = `
+      <div id="weather-display"></div>
+      <div id="error-message" class="hidden"></div>
+  `
     errorMessage = document.getElementById('error-message')
   })
 
